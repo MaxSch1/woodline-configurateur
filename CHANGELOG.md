@@ -47,5 +47,8 @@
   total n'est affecté, un test le vérifie. À confirmer avec le client.
 - Configuration en cours persistée dans le `localStorage` : un rechargement de page ne
   perd plus le devis en construction.
+- Les photos détourées et les schémas (joint périphérique, poutrelles, spots) s'affichent
+  en entier plutôt qu'en cadrage plein : un recadrage 4/3 les amputait.
+- Module PDF chargé à la demande : le paquet initial passe de 627 à 230 Ko.
 - Écrit : `README.md`, `docs/DEMO.md` (scénario chronométré), `docs/questions-client.md`
   (9 points ouverts), `docs/visuels.md`.

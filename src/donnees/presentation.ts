@@ -252,6 +252,21 @@ export const VISUEL_PAR_OPTION: Record<string, string> = {
   caillebotis_composite: "caillebotis-composite.jpg",
 };
 
+/**
+ * Les visuels a afficher en entier plutot qu'en cadrage plein : photos detourees,
+ * schemas et prises de vue verticales, qu'un recadrage en 4/3 amputerait.
+ */
+export const VISUELS_CONTENUS = new Set([
+  "joint_oui",
+  "poutrelles_en_l",
+  "poutrelles_rectilignes",
+  "poutrelles_a_sceller",
+  "spot_252_blanc",
+  "spot_252_rvb",
+  "spot_3_blanc",
+  "spot_9_rvb",
+]);
+
 /** Visuel par essence de bois, page 40. */
 export const VISUEL_PAR_ESSENCE: Record<string, string> = {
   "Pin Rouge 13cm": "essence-pin-13.jpg",

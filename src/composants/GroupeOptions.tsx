@@ -1,4 +1,4 @@
-import { VISUEL_PAR_OPTION, visuel } from "../donnees/presentation";
+import { VISUELS_CONTENUS, VISUEL_PAR_OPTION, visuel } from "../donnees/presentation";
 import { estDisponible, formaterEuros, prixOption } from "../moteur/prix";
 import type { Choix, Groupe, Option, Variante } from "../moteur/types";
 
@@ -202,7 +202,14 @@ export function CarteOption({ option, prix, choisie, onClick }: PropsOption) {
       aria-pressed={choisie}
     >
       {image ? (
-        <img src={image} alt="" className="option__image" loading="lazy" />
+        <img
+          src={image}
+          alt=""
+          className={`option__image${
+            VISUELS_CONTENUS.has(option.id) ? " option__image--contenue" : ""
+          }`}
+          loading="lazy"
+        />
       ) : (
         <div className="option__pastille" aria-hidden>
           {option.libelle.slice(0, 1).toUpperCase()}
