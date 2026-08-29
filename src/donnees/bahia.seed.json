@@ -1,0 +1,451 @@
+{
+  "meta": {
+    "source": "2025 03 20  DEVISEUR Tarifs PARTICULIERS V06.xlsm, feuilles Bahia / Bahia suite / Bahia devis",
+    "version_tarif": "2025-03-20",
+    "extrait_le": "2026-08-29",
+    "devise": "EUR",
+    "tva": "prix publics TVA comprise",
+    "avertissement": "Grille PARTICULIERS. La grille revendeurs n'a pas encore ete fournie.",
+    "total_demo_attendu": 18753
+  },
+
+  "modele": {
+    "code": "bahia",
+    "nom": "Bahia",
+    "forme": "carree",
+    "kit_hydraulique": null,
+    "regles_modele": [
+      "volet_plage_immerges: non disponible sur Bahia"
+    ]
+  },
+
+  "variantes": [
+    { "numero": 1,  "taille": "300 x 300", "hauteur": "H 130 cm", "essence": "Pin Rouge 13cm",  "prix_public": 8258.25 },
+    { "numero": 2,  "taille": "300 x 300", "hauteur": "H 130 cm", "essence": "Pin Rouge 6,5cm", "prix_public": 9040.50 },
+    { "numero": 3,  "taille": "300 x 300", "hauteur": "H 130 cm", "essence": "Bilinga 13 cm",   "prix_public": 10489.50 },
+    { "numero": 4,  "taille": "300 x 300", "hauteur": "H 143 cm", "essence": "Pin Rouge 13cm",  "prix_public": 8350.00 },
+    { "numero": 5,  "taille": "300 x 300", "hauteur": "H 143 cm", "essence": "Pin Rouge 6,5cm", "prix_public": 8820.00 },
+    { "numero": 6,  "taille": "300 x 300", "hauteur": "H 143 cm", "essence": "Bilinga 13 cm",   "prix_public": 10700.00 },
+    { "numero": 7,  "taille": "400 x 400", "hauteur": "H 130 cm", "essence": "Pin Rouge 13cm",  "prix_public": 10090.50 },
+    { "numero": 8,  "taille": "400 x 400", "hauteur": "H 130 cm", "essence": "Pin Rouge 6,5cm", "prix_public": 10473.75 },
+    { "numero": 9,  "taille": "400 x 400", "hauteur": "H 130 cm", "essence": "Bilinga 13 cm",   "prix_public": 12957.00 },
+    { "numero": 10, "taille": "400 x 400", "hauteur": "H 143 cm", "essence": "Pin Rouge 13cm",  "prix_public": 10330.00 },
+    { "numero": 11, "taille": "400 x 400", "hauteur": "H 143 cm", "essence": "Pin Rouge 6,5cm", "prix_public": 10762.50 },
+    { "numero": 12, "taille": "400 x 400", "hauteur": "H 143 cm", "essence": "Bilinga 13 cm",   "prix_public": 13860.00 }
+  ],
+
+  "groupes": [
+    {
+      "id": "liner", "etape": 4, "phase": "commande", "type": "choix_unique",
+      "libelle": "Couleur du liner", "tarification": "aucune",
+      "options": [
+        { "id": "liner_anthracite", "libelle": "Anthracite", "prix": 0 },
+        { "id": "liner_blanc",      "libelle": "Blanc",      "prix": 0 },
+        { "id": "liner_gris_clair", "libelle": "Gris clair", "prix": 0 },
+        { "id": "liner_sable",      "libelle": "Sable",      "prix": 0 },
+        { "id": "liner_bleu",       "libelle": "Bleu",       "prix": 0 }
+      ]
+    },
+    {
+      "id": "joint_peripherique", "etape": 5, "phase": "commande", "type": "booleen",
+      "libelle": "Joint peripherique de sol", "tarification": "par_taille",
+      "options": [
+        { "id": "joint_oui", "libelle": "Joint peripherique de sol",
+          "prix": { "300 x 300": 168, "400 x 400": 216 } }
+      ]
+    },
+    {
+      "id": "pack_poutrelles", "etape": 6, "phase": "commande", "type": "choix_unique",
+      "libelle": "Pack poutrelles supplementaire (si pose hors-sol ou semi-enterree)",
+      "tarification": "par_taille",
+      "options": [
+        { "id": "poutrelles_en_l",        "libelle": "en L",          "prix": { "300 x 300": 580,  "400 x 400": 1160 } },
+        { "id": "poutrelles_rectilignes", "libelle": "rectilignes",   "prix": { "300 x 300": 410,  "400 x 400": 820 } },
+        { "id": "poutrelles_a_sceller",   "libelle": "a sceller",     "prix": { "300 x 300": 1000, "400 x 400": 2000 } },
+        { "id": "poutrelles_non_fournies","libelle": "non fournies",  "prix": { "300 x 300": 0,    "400 x 400": 0 } }
+      ]
+    },
+    {
+      "id": "blochets_margelles", "etape": 7.1, "phase": "commande", "type": "booleen",
+      "libelle": "Blochets + margelles Pin Rouge", "tarification": "par_taille",
+      "options": [
+        { "id": "blochets_oui", "libelle": "Blochets + margelles Pin Rouge",
+          "prix": { "300 x 300": 890, "400 x 400": 1040 } }
+      ]
+    },
+    {
+      "id": "margelles_ipe", "etape": 7.2, "phase": "commande", "type": "booleen",
+      "libelle": "Supplement margelles monobloc en ipe (jusqu'a epuisement)",
+      "tarification": "par_taille",
+      "options": [
+        { "id": "margelles_ipe_oui", "libelle": "Margelles monobloc en ipe (supplement)",
+          "prix": { "300 x 300": 2210, "400 x 400": 3110 } }
+      ]
+    },
+    {
+      "id": "escalier", "etape": 8, "phase": "commande", "type": "choix_unique",
+      "libelle": "Escalier sous liner", "tarification": "par_taille_hauteur",
+      "options": [
+        { "id": "escalier_triangulaire",  "libelle": "Triangulaire",
+          "prix": { "300 x 300|H 130 cm": 1470, "300 x 300|H 143 cm": 1575, "400 x 400|H 130 cm": 1470, "400 x 400|H 143 cm": 1575 } },
+        { "id": "escalier_toute_largeur", "libelle": "Toute largeur",
+          "prix": { "300 x 300|H 130 cm": 1785, "300 x 300|H 143 cm": 1890, "400 x 400|H 130 cm": 1985, "400 x 400|H 143 cm": 2090 } },
+        { "id": "escalier_aucun",         "libelle": "Aucun",
+          "prix": { "300 x 300|H 130 cm": 0, "300 x 300|H 143 cm": 0, "400 x 400|H 130 cm": 0, "400 x 400|H 143 cm": 0 } }
+      ]
+    },
+    {
+      "id": "volet", "etape": 9, "phase": "commande", "type": "booleen",
+      "libelle": "Volet hors sol", "tarification": "par_taille",
+      "options": [
+        { "id": "volet_hors_sol", "libelle": "Volet hors sol",
+          "prix": { "300 x 300": 5040, "400 x 400": 5670 } },
+        { "id": "volet_plage_immerges", "libelle": "Volet et plage immerges",
+          "prix": null, "disponible": false, "motif": "non dispo sur Bahia" }
+      ]
+    },
+    {
+      "id": "spot", "etape": 10, "phase": "commande", "type": "choix_unique_avec_quantite",
+      "libelle": "Eclairage sub-aquatique", "tarification": "fixe", "quantite_defaut": 2,
+      "options": [
+        { "id": "spot_252_blanc", "libelle": "Spot 252 Led blanc",       "prix": 285 },
+        { "id": "spot_252_rvb",   "libelle": "Spot 252 Led RVB",         "prix": 345 },
+        { "id": "spot_3_blanc",   "libelle": "Spot 3 Led blanc",         "prix": 240 },
+        { "id": "spot_9_rvb",     "libelle": "Spot 9 Led couleur RVB",   "prix": 370 },
+        { "id": "spot_sans",      "libelle": "Sans spot",                "prix": 0, "ignore_quantite": true }
+      ]
+    },
+    {
+      "id": "telecommande", "etape": 10, "phase": "commande", "type": "booleen",
+      "libelle": "Telecommande", "tarification": "fixe",
+      "options": [ { "id": "telecommande_oui", "libelle": "Telecommande", "prix": 125 } ]
+    },
+
+    {
+      "id": "feutre_parois", "etape": null, "phase": "ulterieur", "type": "booleen",
+      "libelle": "Feutre 400gr/m2 pour parois (remplace 250gr/m2)", "tarification": "par_taille",
+      "options": [ { "id": "feutre_parois_oui", "libelle": "Feutre 400gr/m2 pour parois",
+        "prix": { "300 x 300": 200.66, "400 x 400": 262.40 } } ]
+    },
+    {
+      "id": "feutre_sol", "etape": null, "phase": "ulterieur", "type": "booleen",
+      "libelle": "Feutre 400gr/m2 pour sol (remplace 250gr/m2)", "tarification": "par_taille",
+      "options": [ { "id": "feutre_sol_oui", "libelle": "Feutre 400gr/m2 pour sol",
+        "prix": { "300 x 300": 277.83, "400 x 400": 463.05 } } ]
+    },
+    {
+      "id": "couverture", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Couverture de securite et d'hivernage", "tarification": "par_taille",
+      "options": [
+        { "id": "couv_wood",         "libelle": "Couverture de securite et d'hivernage Wood",          "prix": { "300 x 300": 540,  "400 x 400": 825 } },
+        { "id": "couv_wood_up",      "libelle": "Couverture de securite et d'hivernage Wood-up",       "prix": { "300 x 300": 540,  "400 x 400": 825 } },
+        { "id": "couv_barres_wood",  "libelle": "Couverture a barres Wood",                            "prix": { "300 x 300": 1445, "400 x 400": 1990 } },
+        { "id": "couv_barres_woodup","libelle": "Couverture a barres Wood-up",                         "prix": { "300 x 300": 1445, "400 x 400": 1990 } },
+        { "id": "couv_aucune",       "libelle": "Pas de couverture hivernale",                         "prix": { "300 x 300": 0,    "400 x 400": 0 } }
+      ]
+    },
+    {
+      "id": "couverture_bulle", "etape": null, "phase": "ulterieur", "type": "booleen",
+      "libelle": "Couverture a bulle", "tarification": "par_taille",
+      "options": [ { "id": "bulle_oui", "libelle": "Couverture a bulle Bleu/noir (cousue 4 cotes + oeillets)",
+        "prix": { "300 x 300": 265, "400 x 400": 415 } } ]
+    },
+    {
+      "id": "enrouleur", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Enrouleur (accessoire des couvertures a bulles)", "tarification": "fixe",
+      "options": [
+        { "id": "enr_sol_4m",  "libelle": "Enrouleur au sol 4 M",                 "prix": 299 },
+        { "id": "enr_sol_5m",  "libelle": "Enrouleur au sol 5 M",                 "prix": 399 },
+        { "id": "enr_sol_7m",  "libelle": "Enrouleur au sol 7 M",                 "prix": 499 },
+        { "id": "enr_tel_4m",  "libelle": "Enrouleur telescopique hors-sol 4 M",  "prix": 499 },
+        { "id": "enr_tel_5m",  "libelle": "Enrouleur telescopique hors-sol 5 M",  "prix": 599 },
+        { "id": "enr_tel_7m",  "libelle": "Enrouleur telescopique hors-sol 7 M",  "prix": 699 },
+        { "id": "enr_aucun",   "libelle": "Pas d'enrouleur",                      "prix": 0 }
+      ]
+    },
+    {
+      "id": "moteur_enrouleur", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Moteur pour enrouleur", "tarification": "fixe",
+      "options": [
+        { "id": "mot_4m",   "libelle": "Moteur pour enrouleur 4m",   "prix": 200 },
+        { "id": "mot_5m",   "libelle": "Moteur pour enrouleur 5m",   "prix": 210 },
+        { "id": "mot_7m",   "libelle": "Moteur pour enrouleur 7m",   "prix": 250 },
+        { "id": "mot_aucun","libelle": "Pas de moteur pour enrouleur","prix": 0 }
+      ]
+    },
+    {
+      "id": "supports_muraux", "etape": null, "phase": "ulterieur", "type": "booleen",
+      "libelle": "Supports muraux pour axe d'enrouleur", "tarification": "fixe",
+      "options": [ { "id": "supports_oui", "libelle": "Supports muraux pour axe d'enrouleur", "prix": 125 } ]
+    },
+    {
+      "id": "pompe_a_chaleur", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Pompe a chaleur", "tarification": "par_taille",
+      "options": [
+        { "id": "pac_onoff_z1", "libelle": "Pompe a chaleur ON/OFF Zone 1 (froide)",       "prix": { "300 x 300": 2025, "400 x 400": 2405 } },
+        { "id": "pac_fi_z1",    "libelle": "Pompe a chaleur Full Inverter Zone 1 (froide)","prix": { "300 x 300": 2120, "400 x 400": 2785 } },
+        { "id": "pac_onoff_z2", "libelle": "Pompe a chaleur ON/OFF Zone 2 (temperee)",     "prix": { "300 x 300": 1849, "400 x 400": 2025 } },
+        { "id": "pac_fi_z2",    "libelle": "Pompe a chaleur Full Inverter Zone 2 (temperee)","prix": { "300 x 300": 1890, "400 x 400": 2120 } },
+        { "id": "pac_onoff_z3", "libelle": "Pompe a chaleur ON/OFF Zone 3 (chaude)",       "prix": { "300 x 300": 1459, "400 x 400": 2025 } },
+        { "id": "pac_fi_z3",    "libelle": "Pompe a chaleur Full Inverter Zone 3 (chaude)","prix": { "300 x 300": 1565, "400 x 400": 2120 } },
+        { "id": "pac_aucune",   "libelle": "Pas de pompe a chaleur",                       "prix": { "300 x 300": 0,    "400 x 400": 0 } }
+      ]
+    },
+    {
+      "id": "kit_by_pass", "etape": null, "phase": "ulterieur", "type": "booleen",
+      "libelle": "Kit By Pass", "tarification": "fixe",
+      "options": [ { "id": "bypass_oui", "libelle": "Kit By Pass", "prix": 99 } ]
+    },
+    {
+      "id": "pieds_pac", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Pieds pour pompe a chaleur", "tarification": "fixe",
+      "options": [
+        { "id": "pieds_45", "libelle": "Pieds pour pompe a chaleur 45 cm", "prix": 65 },
+        { "id": "pieds_60", "libelle": "Pieds pour pompe a chaleur 60 cm", "prix": 80 },
+        { "id": "pieds_aucun", "libelle": "Pas de pied pour pompe a chaleur", "prix": 0 }
+      ]
+    },
+    {
+      "id": "enjoliveur_pac", "etape": null, "phase": "ulterieur", "type": "booleen",
+      "libelle": "Enjoliveur pompe a chaleur", "tarification": "fixe",
+      "options": [ { "id": "enjoliveur_oui", "libelle": "Enjoliveur pompe a chaleur", "prix": 499 } ]
+    },
+    {
+      "id": "traitement_easy", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Traitement de l'eau (gamme Easy)", "tarification": "fixe",
+      "options": [
+        { "id": "easy_4salt",      "libelle": "Easy 4 Salt (pompe pH + electrolyseur de sel) + sondes", "prix": 2310 },
+        { "id": "easy_4salt_wifi", "libelle": "Easy 4 Salt version Wi-Fi",                              "prix": 2550 },
+        { "id": "easy_2pumps",     "libelle": "Easy 2 pumps (2 pompes doseuses pH + chlore)",           "prix": 2025 },
+        { "id": "easy_2pumps_wifi","libelle": "Easy 2 pumps version Wi-Fi",                             "prix": 2275 },
+        { "id": "easy_aucun",      "libelle": "Sans accessoire Easy",                                   "prix": 0 }
+      ]
+    },
+    {
+      "id": "accessoires_eau", "etape": null, "phase": "ulterieur", "type": "booleens_multiples",
+      "libelle": "Accessoires technique de l'eau", "tarification": "fixe",
+      "options": [
+        { "id": "sonde_ph",        "libelle": "Sonde pH de rechange (Easy to pump et Easy to salt)", "prix": 65 },
+        { "id": "sonde_redox",     "libelle": "Sonde Redox (Easy 2 pumps)",                          "prix": 69 },
+        { "id": "upgrade_volet",   "libelle": "Supplement upgrade avec volet",                       "prix": 320 },
+        { "id": "blue_connect",    "libelle": "Blue connect plus (by Riotts Lab)",                   "prix": 440 },
+        { "id": "languettes_test", "libelle": "Languettes test Blue by Riotts Lab (50 pc)",          "prix": 18 },
+        { "id": "photometre",      "libelle": "Photometre Scuba 2",                                  "prix": 219 }
+      ]
+    },
+    {
+      "id": "local_technique", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Local technique", "tarification": "fixe",
+      "options": [
+        { "id": "local_adosser", "libelle": "Local a adosser",       "prix": 790 },
+        { "id": "local_4",       "libelle": "Local technique n4",    "prix": 790 },
+        { "id": "local_5",       "libelle": "Local technique n5",    "prix": 850 },
+        { "id": "local_6",       "libelle": "Local technique n6",    "prix": 1175 },
+        { "id": "local_aucun",   "libelle": "Pas de local technique","prix": 0 }
+      ]
+    },
+    {
+      "id": "aquabike", "etape": null, "phase": "ulterieur", "type": "booleens_multiples",
+      "libelle": "Aquabike", "tarification": "fixe",
+      "options": [
+        { "id": "aquabike_lanabike", "libelle": "Aquabike Lanabike evo Aluminium T6",        "prix": 799 },
+        { "id": "aquabike_wrmax",    "libelle": "Aquabike WR Max Aluminium T6 anodise",      "prix": 999 }
+      ]
+    },
+    {
+      "id": "robot", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Robot de nettoyage", "tarification": "fixe",
+      "options": [
+        { "id": "robot_diaphragme", "libelle": "Nettoyeur a diaphragme",        "prix": 125 },
+        { "id": "robot_blue_rebel", "libelle": "Nettoyeur Blue Rebel",          "prix": 470 },
+        { "id": "robot_sans_fil",   "libelle": "Robot sans fil (accu lithium)", "prix": 1150 },
+        { "id": "robot_zodiac",     "libelle": "Robot Zodiac RT 3200",          "prix": 940 },
+        { "id": "robot_aucun",      "libelle": "Sans robot",                    "prix": 0 }
+      ]
+    },
+    {
+      "id": "set_nettoyage", "etape": null, "phase": "ulterieur", "type": "booleen",
+      "libelle": "Set accessoires nettoyage", "tarification": "fixe",
+      "options": [ { "id": "set_nettoyage_oui", "libelle": "Set accessoires nettoyage", "prix": 155 } ]
+    },
+    {
+      "id": "douche", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Douche", "tarification": "fixe",
+      "options": [
+        { "id": "douche_pvc",     "libelle": "Douche solaire PVC noir",                    "prix": 299 },
+        { "id": "douche_acier",   "libelle": "Douche solaire acier noir",                  "prix": 499 },
+        { "id": "douche_bois",    "libelle": "Douche solaire acier imitation bois (brun)", "prix": 599 },
+        { "id": "douche_hybride", "libelle": "Douche hybride",                             "prix": 699 },
+        { "id": "douche_aucune",  "libelle": "Sans douche",                                "prix": 0 }
+      ]
+    },
+    {
+      "id": "caillebotis", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Caillebotis", "tarification": "fixe",
+      "options": [
+        { "id": "caillebotis_composite", "libelle": "Caillebotis composite",                    "prix": 199 },
+        { "id": "caillebotis_ipe",       "libelle": "Caillebotis en ipe (jusqu'a epuisement)",  "prix": 399 },
+        { "id": "caillebotis_aucun",     "libelle": "Sans caillebotis",                         "prix": 0 }
+      ]
+    },
+    {
+      "id": "cache_ncc", "etape": null, "phase": "ulterieur", "type": "booleen",
+      "libelle": "Cache nage a contre-courant", "tarification": "fixe",
+      "options": [ { "id": "cache_ncc_oui", "libelle": "Cache nage a contre-courant", "prix": 585 } ]
+    },
+    {
+      "id": "cache_poutrelle", "etape": null, "phase": "ulterieur", "type": "choix_unique_avec_quantite",
+      "libelle": "Cache poutrelle", "tarification": "fixe", "quantite_defaut": 1,
+      "options": [
+        { "id": "cache_pin_130",     "libelle": "Cache poutrelle en pin H130",     "prix": 55 },
+        { "id": "cache_bilinga_130", "libelle": "Cache poutrelle en bilinga H130", "prix": 139 },
+        { "id": "cache_pin_143",     "libelle": "Cache poutrelle en pin H143",     "prix": 62 },
+        { "id": "cache_bilinga_143", "libelle": "Cache poutrelle en bilinga H143", "prix": 145 },
+        { "id": "cache_aucun",       "libelle": "Sans cache poutrelle",            "prix": 0, "ignore_quantite": true }
+      ]
+    },
+    {
+      "id": "pompe_relevage", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Pompe de relevage", "tarification": "fixe",
+      "options": [
+        { "id": "relevage_stanley",     "libelle": "Pompe de relevage Stanley flotteur peripherique",      "prix": 110 },
+        { "id": "relevage_inox",        "libelle": "Pompe de relevage inox Stanley flotteur peripherique", "prix": 155 },
+        { "id": "relevage_integre",     "libelle": "Pompe de relevage avec flotteur integre",              "prix": 355 },
+        { "id": "relevage_aucune",      "libelle": "Sans pompe de relevage",                               "prix": 0 }
+      ]
+    },
+    {
+      "id": "skimmer", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Skimmer", "tarification": "fixe",
+      "options": [
+        { "id": "skimmer_standard",     "libelle": "Skimmer standard",                                "prix": 0 },
+        { "id": "skimmer_600_couleur",  "libelle": "Skimmer 600 couleur assortie au liner",           "prix": 305 },
+        { "id": "skimmer_corten",       "libelle": "Skimmer aspect Corten (partie exterieure)",       "prix": 99 },
+        { "id": "skimmer_600_corten",   "libelle": "Skimmer 600 aspect Corten (partie exterieure)",   "prix": 149 }
+      ]
+    },
+    {
+      "id": "module_one", "etape": null, "phase": "ulterieur", "type": "booleen",
+      "libelle": "Supplement module ONE sur coffret electrique", "tarification": "fixe",
+      "options": [ { "id": "module_one_oui", "libelle": "Supplement module ONE sur coffret electrique", "prix": 120 } ]
+    },
+    {
+      "id": "pompe_vitesse_variable", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Pompe a vitesse variable", "tarification": "fixe",
+      "options": [
+        { "id": "pvv_075", "libelle": "Pompe a vitesse variable 0,75cv (pompe standard deduite)", "prix": 920 },
+        { "id": "pvv_1cv", "libelle": "Pompe a vitesse variable 1cv (pompe standard deduite)",    "prix": 1085 },
+        { "id": "pvv_sans","libelle": "Sans pompe a vitesse variable",                            "prix": 0 }
+      ]
+    },
+    {
+      "id": "filtre_cartouche", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Filtre a cartouche", "tarification": "fixe",
+      "options": [
+        { "id": "filtre_cartouche_oui",  "libelle": "Filtre a cartouche (transparent), supplement de", "prix": 100 },
+        { "id": "filtre_cartouche_sans", "libelle": "Sans filtre a cartouches",                        "prix": 0 }
+      ]
+    },
+    {
+      "id": "echelle_inox", "etape": null, "phase": "ulterieur", "type": "booleen",
+      "libelle": "Echelle inox 316 L (si electrolyseur de sel)", "tarification": "fixe",
+      "options": [ { "id": "echelle_inox_oui", "libelle": "Echelle inox 316 L", "prix": 485 } ]
+    },
+    {
+      "id": "prise_balai", "etape": null, "phase": "ulterieur", "type": "booleen",
+      "libelle": "Prise balai + kit prise balai", "tarification": "fixe",
+      "options": [ { "id": "prise_balai_oui", "libelle": "Prise balai + kit prise balai", "prix": 125 } ]
+    },
+    {
+      "id": "nage_contre_courant", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Nage a contre-courant", "tarification": "fixe",
+      "options": [
+        { "id": "ncc_preinstall", "libelle": "Pre-installation nage a contre-courant", "prix": 690 },
+        { "id": "ncc_40",         "libelle": "Nage a contre-courant 40m3/h",           "prix": 2500 },
+        { "id": "ncc_60",         "libelle": "Nage a contre-courant 60m3/h",           "prix": 2615 },
+        { "id": "ncc_sans",       "libelle": "Sans nage a contre-courant",             "prix": 0 }
+      ]
+    },
+    {
+      "id": "lame_eau", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Lame d'eau", "tarification": "fixe",
+      "options": [
+        { "id": "lame_inox", "libelle": "Lame d'eau inox + decaissement margelles", "prix": 899 },
+        { "id": "lame_sans", "libelle": "Sans lame d'eau",                          "prix": 0 }
+      ]
+    },
+    {
+      "id": "bonde", "etape": null, "phase": "ulterieur", "type": "choix_unique",
+      "libelle": "Bonde", "tarification": "fixe",
+      "options": [
+        { "id": "bonde_fond",     "libelle": "Bonde de fond couleur",                     "prix": 75 },
+        { "id": "bonde_laterale", "libelle": "Bonde laterale couleur + decaissement",     "prix": 75 },
+        { "id": "bonde_sans",     "libelle": "Sans bonde",                                "prix": 0 }
+      ]
+    }
+  ],
+
+  "bloc_revendeur": {
+    "commentaire": "Saisi a la main par le revendeur dans l'onglet devis. Ne fait pas partie du tarif Wood-Line.",
+    "lignes": ["Livraison", "Terrassement", "Dalle de beton", "Montage", "Remise"]
+  },
+
+  "sections_devis": [
+    "Piscine selectionnee", "Options suivant type de pose", "Options courantes", "Feutres",
+    "Couvertures", "Pompe a chaleur", "Options", "Accessoires: technique de l'eau",
+    "Locaux techniques", "Aquabike", "Accessoires: robots", "Douches", "Caches",
+    "Pompe de relevage"
+  ],
+
+  "demo_configuration": {
+    "commentaire": "Etat enregistre du fichier Excel au 20/03/2025. Sert de test de non-regression : le total doit valoir 18753.",
+    "variante": 10,
+    "choix": {
+      "liner": "liner_blanc",
+      "joint_peripherique": true,
+      "pack_poutrelles": "poutrelles_rectilignes",
+      "blochets_margelles": false,
+      "margelles_ipe": false,
+      "escalier": "escalier_aucun",
+      "volet": false,
+      "spot": { "option": "spot_9_rvb", "quantite": 2 },
+      "telecommande": true,
+      "feutre_parois": false,
+      "feutre_sol": false,
+      "couverture": "couv_aucune",
+      "couverture_bulle": false,
+      "enrouleur": "enr_tel_7m",
+      "moteur_enrouleur": "mot_5m",
+      "supports_muraux": true,
+      "pompe_a_chaleur": "pac_aucune",
+      "kit_by_pass": true,
+      "pieds_pac": "pieds_aucun",
+      "enjoliveur_pac": false,
+      "traitement_easy": "easy_aucun",
+      "accessoires_eau": ["photometre"],
+      "local_technique": "local_6",
+      "aquabike": ["aquabike_wrmax"],
+      "robot": "robot_blue_rebel",
+      "set_nettoyage": false,
+      "douche": "douche_aucune",
+      "caillebotis": "caillebotis_aucun",
+      "cache_ncc": false,
+      "cache_poutrelle": { "option": "cache_pin_143", "quantite": 1 },
+      "pompe_relevage": "relevage_integre",
+      "skimmer": "skimmer_standard",
+      "module_one": false,
+      "pompe_vitesse_variable": "pvv_1cv",
+      "filtre_cartouche": "filtre_cartouche_sans",
+      "echelle_inox": false,
+      "prise_balai": true,
+      "nage_contre_courant": "ncc_sans",
+      "lame_eau": "lame_inox",
+      "bonde": "bonde_sans"
+    },
+    "totaux_attendus": {
+      "piscine_et_options_de_pose": 12231,
+      "accessoires": 6522,
+      "prix_de_la_piscine": 18753
+    }
+  }
+}

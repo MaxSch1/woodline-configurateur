@@ -1,0 +1,51 @@
+# Changelog — woodline-configurateur
+
+> Une entrée datée par mise à jour ou problème rencontré. Récent en haut. Append-only.
+
+## 2026-08-29
+- **v1 de démonstration créée**, à partir de `DEV/_TEMPLATE-projet/`. React 18 + Vite +
+  TypeScript, vitest, jsPDF. Modèle Bahia seul, 12 variantes, 40 groupes, 118 options.
+- **Socle de permissions posé et prouvé** (`poser-socle-permissions.py` puis
+  `sonde-permissions.py`) : git lecture et écriture `ok`, `write` vérifié, `git push`
+  `refuse` comme voulu, `websearch` `ok`. ⚠️ La sonde rend `erreur` sur `webfetch` —
+  ce n'est pas un refus de permission, la cause n'a pas été creusée, le travail n'en
+  dépendait pas.
+- **Moteur de prix écrit en premier, avec son test d'acceptation.** Il rejoue
+  `demo_configuration` du seed et sort 12 231,00 / 6 522,00 / 18 753,00 €. 27 tests au
+  total, tous verts.
+- **Découpage du devis relevé cellule par cellule** sur la feuille `Bahia devis` du
+  classeur (`src/moteur/sections.ts`), plutôt que déduit. C'est ce qui a permis de
+  reproduire les 14 sous-totaux de section, et pas seulement le total.
+- **Problème trouvé dans le classeur du client** : le sous-total « Options courantes »
+  (H19 = `SOMME(D20:D25)`) laisse la télécommande (D26, 125 €) hors de sa plage. Le
+  total général D77 la reprend, donc le prix final du client est juste ; seul le
+  sous-total affiché est court de 125 €. Documenté dans `sections.ts`, couvert par un
+  test, et remonté dans `docs/questions-client.md`.
+- **Problème : le seed a perdu ses accents à l'extraction.** Inacceptable sur un devis
+  client. Résolu par `src/donnees/libelles.ts` : un script aligne chaque libellé du
+  seed sur sa chaîne dans le classeur et ne transfère que les signes diacritiques
+  (54 libellés) ; 19 autres sont rétablis à la main faute d'appariement exact. Le seed
+  reste octet pour octet celui du CB, et un test vérifie qu'aucun prix, identifiant ni
+  structure n'est touché.
+- **39 visuels extraits du catalogue PDF** (`outils/extraire-visuels.py`, documenté
+  dans `docs/visuels.md`). Aucune image inventée : une option sans photo identifiée
+  reste sans photo.
+- **Charte échantillonnée dans le catalogue** plutôt que devinée : terre cuite
+  `#AB4D13`, bordeaux `#740A01`, bleu `#0072BC`, orange `#F09109`.
+- **Problème : l'en-tête collant du tableau des tarifs se décalait d'une ligne** et
+  masquait la première rangée. Deux causes cumulées, corrigées dans `styles.css` :
+  `border-collapse: collapse` et surtout `overflow: hidden` sur la table, qui en
+  faisait le conteneur de défilement du `th` sticky.
+- **Problème : l'option indisponible ne s'affichait pas.** Le rendu des groupes
+  booléens ne montrait que la première option, donc « Volet et plage immergés — non
+  dispo sur Bahia » restait invisible. C'est pourtant une règle métier à montrer :
+  toutes les options du groupe sont désormais rendues, les indisponibles grisées avec
+  leur motif.
+- **Choix assumé : les lignes à 0 € ne s'impriment pas.** Le classeur imprime les
+  vingt « Sans robot » et « Pas de couverture » ; sur un devis client cela noie
+  l'offre. `lignesImprimables()` les masque, la piscine et le liner exceptés. Aucun
+  total n'est affecté, un test le vérifie. À confirmer avec le client.
+- Configuration en cours persistée dans le `localStorage` : un rechargement de page ne
+  perd plus le devis en construction.
+- Écrit : `README.md`, `docs/DEMO.md` (scénario chronométré), `docs/questions-client.md`
+  (9 points ouverts), `docs/visuels.md`.
