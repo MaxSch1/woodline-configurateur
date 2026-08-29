@@ -2,6 +2,27 @@
 
 > Une entrée datée par mise à jour ou problème rencontré. Récent en haut. Append-only.
 
+## 2026-08-29 (4) — 🔴 `destroy is not a function` : l'effet de remontée en haut de page
+
+- **Symptôme** : Maxime voyait toujours l'écran d'erreur, avec le message
+  `destroy is not a function`. Chez moi, jamais.
+- **Cause, reproduite à l'identique** : `useEffect(() => window.scrollTo(0, 0), [pathname])`.
+  La flèche **sans accolades RETOURNE** la valeur de `window.scrollTo`. Sur un navigateur
+  standard c'est `undefined` et rien ne casse — d'où le fait que ça marchait chez moi.
+  Mais dès qu'une **extension de défilement fluide** remplace `window.scrollTo` par une
+  fonction qui retourne autre chose, React prend cette valeur pour la fonction de
+  nettoyage de l'effet et l'appelle à la navigation suivante : `destroy is not a function`.
+- **Reproduction** : en détournant `window.scrollTo` pour qu'il retourne un objet, on
+  obtient exactement l'écran de Maxime dès la deuxième navigation.
+- **Correction** : corps de l'effet en bloc. Vérifié ensuite avec le même détournement
+  actif — quatre navigations d'affilée, console vide.
+- **Garde-fou** : `src/hygiene.test.ts` refuse désormais tout `useEffect` à flèche
+  concise, dans tous les `.ts`/`.tsx`. C'est presque toujours ce piège.
+- **L'écran d'erreur devient auto-diagnostique** : il affiche le message, **le composant
+  fautif** et l'écran concerné. Les trois allers-retours de la journée venaient de ce que
+  le diagnostic n'était visible qu'en console — ce qu'on n'ouvre pas devant un client.
+- 42 tests verts. Acceptation toujours à 12 231 / 6 522 / 18 753 €.
+
 ## 2026-08-29 (3) — 🔴 Cause racine trouvée : Fast Refresh cassé par `App.tsx`
 
 - **Symptôme suivant** : après le correctif précédent, Maxime voyait l'écran

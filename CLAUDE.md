@@ -30,11 +30,22 @@ Ne jamais « corriger » un prix pour faire passer le test : c'est le seed qui f
   si la faute revient. Un module exporte SOIT des composants, SOIT des hooks et des
   contextes.
 
+- 🔴 **Écrire un `useEffect` à flèche concise** (`useEffect(() => faire(), [x])`).
+  L'effet retourne alors la valeur de `faire()`, que React prend pour la fonction de
+  nettoyage. Avec `window.scrollTo`, ça a donné `destroy is not a function` sur un poste
+  équipé d'une extension de défilement fluide, et pas sur le mien. Corps en bloc,
+  toujours. `src/hygiene.test.ts` le vérifie.
+
 ## Quand quelque chose casse à l'écran
 - Regarder **le journal de `npm run dev`** avant le code : `Could not Fast Refresh` et
   `Pre-transform error` y sont écrits en clair et désignent la cause.
 - Après un renommage ou une suppression de fichier, redémarrer `npm run dev` : Vite
   garde une résolution de module périmée.
+- L'écran d'erreur affiche le message, le composant fautif et l'écran concerné : c'est
+  la première chose à lire, avant d'ouvrir quoi que ce soit.
+- **Un bug qui n'apparaît que chez l'utilisateur** : penser à ce que son navigateur
+  ajoute — extensions, `prefers-reduced-motion`, API redéfinies. Le reproduire en
+  détournant l'API soupçonnée coûte deux minutes et évite trois allers-retours.
 
 ## Commandes
 - Installer : `npm install`

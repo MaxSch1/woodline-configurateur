@@ -18,19 +18,27 @@ interface Props {
 
 interface Etat {
   erreur: Error | null;
+  /** Le composant ou ca a lache, pour diagnostiquer sans ouvrir la console. */
+  composant: string | null;
 }
 
 const CLES_STOCKAGE = ["woodline.configuration-en-cours", "woodline.grille-tarifaire"];
 
 export default class GardeFou extends Component<Props, Etat> {
-  state: Etat = { erreur: null };
+  state: Etat = { erreur: null, composant: null };
 
-  static getDerivedStateFromError(erreur: Error): Etat {
+  static getDerivedStateFromError(erreur: Error): Partial<Etat> {
     return { erreur };
   }
 
   componentDidCatch(erreur: Error, infos: ErrorInfo) {
     console.error("[woodline] écran interrompu :", erreur, infos.componentStack);
+    // Premiere ligne utile de la pile : « at Entete (…) » -> « Entete ».
+    const premiere = (infos.componentStack ?? "")
+      .split("\n")
+      .map((l) => l.trim())
+      .find((l) => l.startsWith("at "));
+    this.setState({ composant: premiere?.replace(/^at\s+/, "").split(" ")[0] ?? null });
   }
 
   private repartirDeZero = () => {
@@ -62,7 +70,14 @@ export default class GardeFou extends Component<Props, Etat> {
         </button>
         {/* Le message est visible d'emblee : sur un poste en clientele, personne ne
             pense a deplier un « detail technique » ni a ouvrir la console. */}
-        <pre className="panne__message">{this.state.erreur.message}</pre>
+        {/* Message ET composant fautif, visibles d'emblee : sur un poste en
+            clientele, personne n'ouvre la console, et un aller-retour pour
+            demander « qu'est-ce qui est ecrit » coute une reunion. */}
+        <pre className="panne__message">
+          {this.state.erreur.message}
+          {this.state.composant ? `\n\ncomposant : ${this.state.composant}` : ""}
+          {`\nécran : ${window.location.hash || "#/"}`}
+        </pre>
       </main>
     );
   }
