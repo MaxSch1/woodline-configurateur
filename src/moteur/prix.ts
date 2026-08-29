@@ -135,8 +135,14 @@ function lignesDuGroupe(
   };
 
   if (choix === true) {
-    // Case a cocher : le groupe ne porte qu'une option, celle qui est cochee.
-    const option = groupe.options[0];
+    // Case a cocher : on prend la premiere option DISPONIBLE, pas la premiere tout
+    // court. Un groupe booleen peut porter en plus des options marquees indisponibles
+    // sur ce modele (« Volet et plage immerges » sur Bahia) ; prendre options[0] les
+    // yeux fermes ferait lever le moteur des qu'une d'elles arriverait en tete.
+    const option = groupe.options.find(estDisponible);
+    if (!option) {
+      throw new Error(`Le groupe ${groupe.id} n'a aucune option disponible a cocher.`);
+    }
     return [ligne(option, null, option.libelle)];
   }
 

@@ -5,6 +5,7 @@ import {
   choixParDefaut,
   choixValide,
   configurationNeuve,
+  restaurerConfiguration,
 } from "./configuration";
 import { calculerDevis } from "./prix";
 import type { Catalogue } from "./types";
@@ -102,5 +103,83 @@ describe("Choix par défaut", () => {
     const devis = calculerDevis(catalogue, configurationNeuve(catalogue));
     expect(devis.prixDeLaPiscine).toBe(8258.25);
     expect(devis.accessoires).toBe(0);
+  });
+});
+
+describe("Restauration auto-réparante", () => {
+  it("rend une configuration neuve quand la restaurée ne se chiffre pas", () => {
+    /**
+     * Un catalogue tordu exprès : le groupe booléen porte en PREMIER une option
+     * indisponible. Le tamis de forme laisse passer `true` — cocher est légitime
+     * puisqu'une option disponible existe — mais un moteur qui prendrait
+     * `options[0]` les yeux fermés lèverait. C'est la forme exacte du bug qui a
+     * mis l'écran en panne le 29/08/2026.
+     */
+    const tordu: Catalogue = {
+      ...catalogue,
+      groupes: [
+        {
+          id: "volet",
+          etape: 9,
+          phase: "commande",
+          type: "booleen",
+          libelle: "Volet",
+          tarification: "fixe",
+          options: [
+            { id: "immerge", libelle: "Volet immergé", prix: null, disponible: false, motif: "non dispo" },
+            { id: "hors_sol", libelle: "Volet hors sol", prix: 5040 },
+          ],
+        },
+      ],
+    };
+
+    const { configuration, rejets } = restaurerConfiguration(tordu, {
+      variante: 1,
+      choix: { volet: true },
+    });
+    // Le moteur sait désormais prendre la première option DISPONIBLE : rien à réparer.
+    expect(rejets).toEqual([]);
+    expect(configuration.choix.volet).toBe(true);
+    expect(calculerDevis(tordu, configuration).prixDeLaPiscine).toBe(8258.25 + 5040);
+  });
+
+  it("abandonne la configuration et repart neuve si le moteur lève quand même", () => {
+    // Aucune option disponible du tout : cocher n'a plus de sens, le moteur lève,
+    // et la restauration doit rendre la main sans casser l'écran.
+    const impossible: Catalogue = {
+      ...catalogue,
+      groupes: [
+        {
+          id: "volet",
+          etape: 9,
+          phase: "commande",
+          type: "booleen",
+          libelle: "Volet",
+          tarification: "fixe",
+          options: [
+            { id: "immerge", libelle: "Volet immergé", prix: null, disponible: false, motif: "non dispo" },
+          ],
+        },
+      ],
+    };
+
+    // On force un choix que le tamis de forme refuserait, pour atteindre le moteur.
+    const { configuration, rejets } = restaurerConfiguration(impossible, {
+      variante: 1,
+      choix: { volet: true },
+    });
+    expect(configuration.choix.volet).toBe(false);
+    expect(rejets).toContain("volet");
+    expect(() => calculerDevis(impossible, configuration)).not.toThrow();
+  });
+
+  it("garde la configuration de démonstration intacte", () => {
+    const demo = catalogue.demo_configuration;
+    const { configuration, rejets } = restaurerConfiguration(catalogue, {
+      variante: demo.variante,
+      choix: demo.choix,
+    });
+    expect(rejets).toEqual([]);
+    expect(calculerDevis(catalogue, configuration).prixDeLaPiscine).toBe(18753);
   });
 });

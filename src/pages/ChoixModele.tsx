@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { MODELES, visuel } from "../donnees/presentation";
-import { useAtelier } from "../App";
+import { useAtelier } from "../etat/contexte";
 
 /**
  * Ecran 1. Une seule carte active — Bahia, entierement chargee depuis le seed.

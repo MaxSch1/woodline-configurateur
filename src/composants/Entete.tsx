@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { useAtelier } from "../App";
+import { useAtelier } from "../etat/contexte";
 import { LOGO } from "../donnees/presentation";
 import { formaterEuros } from "../moteur/prix";
 

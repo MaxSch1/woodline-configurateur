@@ -60,10 +60,9 @@ export default class GardeFou extends Component<Props, Etat> {
         <button type="button" className="bouton bouton--primaire" onClick={this.repartirDeZero}>
           Repartir de zéro
         </button>
-        <details className="panne__detail">
-          <summary>Détail technique</summary>
-          <pre>{this.state.erreur.message}</pre>
-        </details>
+        {/* Le message est visible d'emblee : sur un poste en clientele, personne ne
+            pense a deplier un « detail technique » ni a ouvrir la console. */}
+        <pre className="panne__message">{this.state.erreur.message}</pre>
       </main>
     );
   }

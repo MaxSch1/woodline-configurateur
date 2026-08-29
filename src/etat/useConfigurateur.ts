@@ -6,9 +6,9 @@ import {
   type GrilleTarifaire,
 } from "../donnees/catalogue";
 import {
-  assainirConfiguration,
   choixParDefaut,
   configurationNeuve,
+  restaurerConfiguration,
 } from "../moteur/configuration";
 import { calculerDevis } from "../moteur/prix";
 import type { Catalogue, Choix, Configuration, LigneRevendeur } from "../moteur/types";
@@ -53,6 +53,23 @@ const REVENDEUR_VIERGE: Revendeur = {
 const CLIENT_VIERGE: Client = { nom: "", adresse: "", telephone: "", email: "" };
 
 /**
+ * Recompose une fiche a partir de ce qui a ete enregistre, champ par champ.
+ * Sans ca, un `client` enregistre incomplet laisse des champs `undefined` : React
+ * passe l'input de controle a non controle, et `nomDuFichier()` leve sur
+ * `client.nom.trim()` au moment de generer le PDF.
+ */
+function reprendreFiche<T extends object>(modele: T, enregistre: unknown): T {
+  if (!enregistre || typeof enregistre !== "object") return modele;
+  const source = enregistre as Record<string, unknown>;
+  const fiche: Record<string, unknown> = { ...(modele as object) } as Record<string, unknown>;
+  for (const cle of Object.keys(modele)) {
+    const valeur = source[cle];
+    if (typeof valeur === "string") fiche[cle] = valeur;
+  }
+  return fiche as T;
+}
+
+/**
  * La configuration en cours survit a un rechargement de page : un revendeur qui
  * ferme son portable au milieu d'un rendez-vous retrouve son devis.
  */
@@ -92,7 +109,7 @@ export function useConfigurateur() {
    */
   const [configuration, setConfiguration] = useState<Configuration>(() => {
     if (!reprise?.configuration) return configurationNeuve(neuf);
-    const { configuration: assainie, rejets } = assainirConfiguration(
+    const { configuration: assainie, rejets } = restaurerConfiguration(
       neuf,
       reprise.configuration,
     );
@@ -113,9 +130,11 @@ export function useConfigurateur() {
       montant: Number.isFinite(enregistre[i]?.montant) ? enregistre[i].montant : 0,
     }));
   });
-  const [client, setClient] = useState<Client>(() => reprise?.client ?? CLIENT_VIERGE);
-  const [revendeur, setRevendeur] = useState<Revendeur>(
-    () => reprise?.revendeur ?? REVENDEUR_VIERGE,
+  const [client, setClient] = useState<Client>(() =>
+    reprendreFiche(CLIENT_VIERGE, reprise?.client),
+  );
+  const [revendeur, setRevendeur] = useState<Revendeur>(() =>
+    reprendreFiche(REVENDEUR_VIERGE, reprise?.revendeur),
   );
 
   useEffect(() => {

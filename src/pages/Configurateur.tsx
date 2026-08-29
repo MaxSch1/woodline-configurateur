@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAtelier } from "../App";
+import { useAtelier } from "../etat/contexte";
 import GroupeOptions from "../composants/GroupeOptions";
 import Recapitulatif from "../composants/Recapitulatif";
 import {

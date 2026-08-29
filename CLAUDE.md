@@ -23,6 +23,18 @@ Ne jamais « corriger » un prix pour faire passer le test : c'est le seed qui f
   information, elle va dans `docs/questions-client.md`.
 - Mettre React dans `src/moteur/` : ce module est pur, il sera réutilisé pour les
   autres modèles et pour l'API.
+- 🔴 **Exporter un composant ET un hook (ou un contexte) depuis le même fichier.**
+  C'est incompatible avec le Fast Refresh de React : après une édition, un navigateur
+  déjà ouvert reste sur un mélange de modules, le contexte est perdu, et l'écran tombe
+  en panne. Ça a coûté deux allers-retours le 29/08/2026. `src/hygiene.test.ts` échoue
+  si la faute revient. Un module exporte SOIT des composants, SOIT des hooks et des
+  contextes.
+
+## Quand quelque chose casse à l'écran
+- Regarder **le journal de `npm run dev`** avant le code : `Could not Fast Refresh` et
+  `Pre-transform error` y sont écrits en clair et désignent la cause.
+- Après un renommage ou une suppression de fichier, redémarrer `npm run dev` : Vite
+  garde une résolution de module périmée.
 
 ## Commandes
 - Installer : `npm install`

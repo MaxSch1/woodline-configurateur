@@ -11,6 +11,6 @@ export default defineConfig({
   server: { port: 5180, open: true },
   test: {
     environment: "node",
-    include: ["src/**/*.test.ts"],
+    include: ["src/**/*.test.ts", "src/**/*.test.tsx"],
   },
 });

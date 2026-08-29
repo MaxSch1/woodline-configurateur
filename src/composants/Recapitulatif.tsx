@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useAtelier } from "../App";
+import { useAtelier } from "../etat/contexte";
 import {
   formaterEuros,
   intituleLigne,

@@ -1,3 +1,4 @@
+import { calculerDevis } from "./prix";
 import type { Catalogue, Choix, Configuration, Groupe } from "./types";
 
 /**
@@ -118,4 +119,32 @@ export function assainirConfiguration(
     },
     rejets,
   };
+}
+
+/**
+ * Une configuration restauree est-elle reellement chiffrable ?
+ *
+ * `assainirConfiguration` verifie la forme des choix, un a un. Ce garde-fou-ci verifie
+ * le resultat : il fait tourner le moteur pour de vrai. C'est la seule facon de couvrir
+ * ce qu'on n'a pas prevu — une regle metier future, un catalogue remanie, un cas qu'on
+ * n'a pas imagine. Ce qui compte pour un outil pilote devant un client, c'est qu'il
+ * reparte, pas qu'il ait raison sur la cause.
+ */
+export function restaurerConfiguration(
+  catalogue: Catalogue,
+  brut: unknown,
+): { configuration: Configuration; rejets: string[] } {
+  const { configuration, rejets } = assainirConfiguration(catalogue, brut);
+  try {
+    calculerDevis(catalogue, configuration);
+    return { configuration, rejets };
+  } catch (erreur) {
+    return {
+      configuration: configurationNeuve(catalogue),
+      rejets: [
+        ...rejets,
+        `configuration abandonnée (${erreur instanceof Error ? erreur.message : String(erreur)})`,
+      ],
+    };
+  }
 }

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useAtelier } from "../App";
+import { useAtelier } from "../etat/contexte";
 import {
   CATALOGUE_ORIGINE,
   ecrireGrille,

@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAtelier } from "../App";
+import { useAtelier } from "../etat/contexte";
 import { LOGO } from "../donnees/presentation";
 import {
   formaterEuros,

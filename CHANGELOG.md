@@ -2,6 +2,43 @@
 
 > Une entrée datée par mise à jour ou problème rencontré. Récent en haut. Append-only.
 
+## 2026-08-29 (3) — 🔴 Cause racine trouvée : Fast Refresh cassé par `App.tsx`
+
+- **Symptôme suivant** : après le correctif précédent, Maxime voyait l'écran
+  « L'écran s'est interrompu ». Le garde-fou faisait son travail, mais il y avait
+  bien une erreur dessous.
+- **Cause racine, enfin identifiée** : `App.tsx` exportait à la fois le composant
+  `App` et le hook `useAtelier` avec son contexte. C'est **incompatible avec le Fast
+  Refresh de React**, et Vite le disait à chaque édition dans son journal —
+  `Could not Fast Refresh ("useAtelier" export is incompatible)`. Après une
+  modification de ce fichier, un navigateur déjà ouvert restait sur un mélange
+  d'anciens et de nouveaux modules : `useAtelier` ne retrouvait plus son fournisseur
+  et levait. C'est **la même cause pour les deux symptômes** — page blanche avant le
+  garde-fou, écran d'erreur après. Le message en console le disait :
+  `useAtelier hors du fournisseur`, levé depuis `Entete`.
+- **Correction** : le contexte et le hook vivent dans `src/etat/contexte.ts` (sans
+  JSX, donc sans composant), le fournisseur dans `src/etat/FournisseurAtelier.tsx`,
+  et `App.tsx` n'exporte plus qu'un composant. Journal Vite vérifié après trois
+  éditions successives : plus aucun `Could not Fast Refresh`, plus aucun
+  `page reload`, uniquement des `hmr update` propres.
+- **Garde-fou automatique** : `src/hygiene.test.ts` parcourt les `.tsx` et échoue si
+  un module exporte à la fois un composant et un hook. Il a d'ailleurs immédiatement
+  attrapé la faute que je venais de réintroduire dans un `contexte.tsx` intermédiaire.
+- **Renforcements passés au même moment** :
+  - `restaurerConfiguration()` ne se contente plus de valider la forme des choix, elle
+    fait tourner le moteur pour de vrai et repart d'une configuration neuve s'il lève.
+  - `lignesDuGroupe` prend la première option **disponible** d'un groupe booléen, plus
+    `options[0]` les yeux fermés — la même faute latente aurait explosé sur Atoll ou
+    Longhi, qui ont leurs propres options indisponibles.
+  - Les fiches client et revendeur sont recomposées champ par champ : un enregistrement
+    incomplet faisait lever `nomDuFichier()` sur `client.nom.trim()` à l'export PDF.
+  - Le message d'erreur du garde-fou est visible d'emblée, sans dépliage : sur un poste
+    en clientèle, personne n'ouvre la console.
+- 41 tests, tous verts. Le test d'acceptation sort toujours 12 231 / 6 522 / 18 753 €.
+- ⚠️ **À savoir** : renommer ou supprimer un module laisse Vite sur une résolution
+  périmée (`Failed to load url … Does the file exist ?`). Redémarrer `npm run dev`
+  suffit ; ce n'est pas un défaut du code.
+
 ## 2026-08-29 (2) — 🔴 Page blanche au chargement, corrigée
 
 - **Problème signalé par Maxime** : le configurateur s'ouvrait pendant le développement,

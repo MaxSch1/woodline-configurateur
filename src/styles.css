@@ -1187,18 +1187,15 @@ tr.modifiee .table-admin__saisie input { border-color: var(--orange); color: #92
   font-size: 16px;
   margin: 0 0 26px;
 }
-.panne__detail {
-  margin-top: 32px;
-  text-align: left;
-  font-size: 13px;
-  color: var(--encre-legere);
-}
-.panne__detail summary { cursor: pointer; }
-.panne__detail pre {
-  margin-top: 10px;
+.panne__message {
+  margin: 30px 0 0;
   padding: 12px 14px;
+  text-align: left;
+  font-size: 12.5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   background: var(--fond);
   border: 1px solid var(--trait);
+  border-left: 3px solid var(--terre-clair);
   border-radius: var(--rayon);
   white-space: pre-wrap;
   word-break: break-word;
