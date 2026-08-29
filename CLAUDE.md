@@ -6,7 +6,7 @@
 - **Quoi** : configurateur et deviseur web des piscines bois Wood-Line. Il remplace le classeur Excel à macros des revendeurs. v1 de démonstration, modèle Bahia uniquement.
 - **Pour qui** : Wood-Pool SA (Burdinne) — fiche CB : `../../Mémoire Claude/Clients/broers-bois/main.md`
 - **Stack** : React 18 + Vite + TypeScript, vitest, jsPDF. Aucun back-end, aucun service externe.
-- **Prod** : pas encore déployé.
+- **Prod** : https://woodline-configurateur.vercel.app (Vercel, scope `meridiem`, public sans mot de passe). Dépôt privé `MaxSch1/woodline-configurateur`, connecté : un `git push` sur `main` redéploie. Détail : `docs/deploy.md`.
 - **Particularités** : voir ci-dessous, la règle d'acceptation n'est pas négociable.
 
 ## 🔴 La règle qui prime sur tout
@@ -51,4 +51,4 @@ Ne jamais « corriger » un prix pour faire passer le test : c'est le seed qui f
 - Installer : `npm install`
 - Lancer en dev : `npm run dev` (port 5180)
 - Tester : `npm test` · acceptation seule : `npm run acceptation`
-- Déployer : pas encore de procédure.
+- Déployer : `git push` (automatique), ou `vercel --prod --scope meridiem`. Le scope est obligatoire.

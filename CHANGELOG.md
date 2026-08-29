@@ -2,6 +2,23 @@
 
 > Une entrée datée par mise à jour ou problème rencontré. Récent en haut. Append-only.
 
+## 2026-08-29 (6) — 🚀 En ligne
+
+- **Dépôt GitHub** : `MaxSch1/woodline-configurateur`, **privé** (il porte la grille
+  tarifaire et les visuels de Wood-Pool). Connecté au projet Vercel : un `git push` sur
+  `main` déclenche un déploiement.
+- **Production** : https://woodline-configurateur.vercel.app, scope Vercel `meridiem`.
+- **Public, sans mot de passe**, sur décision explicite de Maxime. Seul garde-fou :
+  `X-Robots-Tag: noindex, nofollow`. L'autorisation du client sur les visuels du
+  catalogue reste à obtenir (point 7 de `docs/questions-client.md`).
+- **Problème rencontré et résolu** : `cleanUrls: true` dans `vercel.json` faisait ignorer
+  les `rewrites`, et `/configurer` renvoyait un 404. Retiré ; les trois routes héritées
+  répondent maintenant 200 et ouvrent l'application.
+- **Piège de la CLI** : le compte `maxsch1` voit trois équipes, `vercel` s'arrête sans
+  `--scope`. `--scope meridiem` documenté partout.
+- Vérifié en ligne : parcours complet, rejeu du classeur à **18 753,00 €**, console
+  vide, images et logo servis, en-têtes appliqués.
+
 ## 2026-08-29 (5) — Déploiement préparé (Vercel), sans être lancé
 
 - `vercel.json` + `docs/deploy.md`. L'application étant entièrement statique, il n'y a

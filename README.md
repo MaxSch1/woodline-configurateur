@@ -8,6 +8,9 @@ dongle USB, que les revendeurs utilisent aujourd'hui pour établir un devis.
 devant le dirigeant : un seul modèle, **Bahia**, mais entièrement fonctionnel, aux prix
 du deviseur, au centime.
 
+**En ligne : https://woodline-configurateur.vercel.app** (public, non indexé).
+Dépôt : https://github.com/MaxSch1/woodline-configurateur (privé).
+
 - Fiche client (CB) : [`Mémoire Claude/Clients/broers-bois/main.md`](../../Mémoire%20Claude/Clients/broers-bois/main.md)
 - Analyse du classeur : [`docs/configurateur/ANALYSE-deviseur-excel.md`](../../Mémoire%20Claude/Clients/broers-bois/docs/configurateur/ANALYSE-deviseur-excel.md)
 - Scénario de démonstration : [`docs/DEMO.md`](docs/DEMO.md)
@@ -117,13 +120,16 @@ L'application est **entièrement statique** : pas de serveur, pas de base, pas d
 variable d'environnement, pas de secret. Elle se pose telle quelle sur Vercel
 (`vercel.json` fourni) ou sur Azure Static Web Apps.
 
+Déployée le 29/08/2026 sur **https://woodline-configurateur.vercel.app**. Le dépôt
+GitHub est connecté au projet Vercel : **un `git push` sur `main` redéploie**.
+
 ```bash
-vercel        # prévisualisation, URL non indexée
+vercel --prod --scope meridiem     # déploiement manuel depuis le poste
 ```
 
-🔴 Une URL publique expose les 161 prix de Wood-Pool et 39 images de leur catalogue :
-**protéger le déploiement par mot de passe** tant que le client n'a pas donné son
-accord. Procédure, rollback et arbitrage Azure : [`docs/deploy.md`](docs/deploy.md).
+Le site est **public et sans mot de passe** (décision de Maxime), avec un en-tête
+`noindex, nofollow`. Procédure, rollback et arbitrage Azure :
+[`docs/deploy.md`](docs/deploy.md).
 
 **La v1 n'utilise pas Supabase**, ni aucune base : c'était le périmètre. La bascule est
 préparée, pas faite — un seul fichier à changer, `src/donnees/catalogue.ts`. Détail et

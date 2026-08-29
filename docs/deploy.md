@@ -1,5 +1,18 @@
 # Déploiement
 
+## En ligne
+
+| | |
+|---|---|
+| **Production** | https://woodline-configurateur.vercel.app |
+| Projet Vercel | `meridiem/woodline-configurateur` |
+| Dépôt | https://github.com/MaxSch1/woodline-configurateur (**privé**) |
+| Déploiement automatique | oui — un `git push` sur `main` déclenche un déploiement |
+| Protection | **aucune**, décision de Maxime du 29/08/2026. En-tête `noindex, nofollow` seulement |
+
+Mise en ligne le 29/08/2026. Le dépôt est privé parce qu'il contient la grille
+tarifaire et les visuels de Wood-Pool ; le **site**, lui, est public.
+
 ## Ce qu'il faut savoir avant
 
 L'application est **entièrement statique**. Pas de serveur, pas de base de données,
@@ -18,46 +31,49 @@ la bascule vers une base devient nécessaire (voir « Et Supabase ? » plus bas)
 Hébergeur le plus rapide pour une démo. Rien à configurer au-delà de `vercel.json`,
 déjà présent à la racine.
 
+Le dépôt GitHub est connecté au projet : **un `git push` sur `main` suffit**. Pour
+déployer à la main depuis le poste :
+
 ```bash
 cd "DEV/woodline-configurateur"
-vercel            # déploiement de prévisualisation, URL non indexée
-vercel --prod     # déploiement de production
+vercel --scope meridiem            # prévisualisation, URL non devinable
+vercel --prod --scope meridiem     # production
 ```
 
-Le compte utilisé est celui de la CLI (`vercel whoami`).
+⚠️ `--scope meridiem` est obligatoire : le compte CLI (`maxsch1`) voit trois équipes,
+et sans le scope la commande s'arrête en demandant laquelle.
 
 ### Ce que fait `vercel.json`
 
 | Réglage | Pourquoi |
 |---|---|
 | `framework: vite`, `outputDirectory: dist` | Build standard, `npm run build` |
-| 3 `rewrites` (`/configurer`, `/devis`, `/administration`) | Filet pour les anciennes URL sans `#`. L'application utilise un routeur à dièse, donc seule `/` est réellement demandée. ⚠️ **Ne pas mettre de réécriture attrape-tout** : le build utilise des chemins d'assets relatifs (`base: "./"`), donc `index.html` servi sur un chemin à plusieurs segments chercherait ses assets au mauvais endroit. Les trois routes ci-dessus n'ont qu'un segment, elles sont sûres. |
+| 3 `rewrites` (`/configurer`, `/devis`, `/administration`) | Filet pour les anciennes URL sans `#` : elles ouvrent l'application (à l'accueil, puisque le routeur lit le dièse) au lieu de renvoyer un 404. L'application utilise un routeur à dièse, donc seule `/` est réellement demandée. ⚠️ **Ne pas mettre de réécriture attrape-tout** : le build utilise des chemins d'assets relatifs (`base: "./"`), donc `index.html` servi sur un chemin à plusieurs segments chercherait ses assets au mauvais endroit. Les trois routes ci-dessus n'ont qu'un segment, elles sont sûres. |
+| **Pas de `cleanUrls`** | 🔴 Mesuré le 29/08/2026 : avec `cleanUrls: true`, Vercel ignore les `rewrites` ci-dessus et `/configurer` retombe en 404. Retiré. |
 | `X-Robots-Tag: noindex, nofollow` | Les tarifs et les visuels de Wood-Pool n'ont rien à faire dans Google |
 | Cache long sur `/assets/`, court sur `/visuels/` | Les assets portent une empreinte dans leur nom, les visuels non |
 
-### 🔴 Avant de déployer publiquement
+### Ce qui est public, et assumé
 
-Une URL Vercel est publique. Ce qui part en ligne :
+Décision de Maxime le 29/08/2026 : **pas de protection**. Ce qui est donc accessible à
+qui a l'URL :
 
 - les **161 prix publics** du modèle Bahia, tels que fournis par Wood-Pool ;
 - **39 images extraites de leur catalogue 2025**, qui leur appartiennent ;
 - la marque Wood-Line, sur un domaine Meridiem.
 
-Deux garde-fous possibles, à choisir avec Maxime et Fabrice :
+Seul garde-fou en place : l'en-tête `X-Robots-Tag: noindex, nofollow`, qui tient le
+site hors des moteurs de recherche. Le point 7 de `docs/questions-client.md` demande
+toujours à Wood-Pool l'autorisation formelle d'utiliser les visuels de leur catalogue.
 
-1. **Protection par mot de passe** (Vercel → Settings → Deployment Protection →
-   Password Protection). Recommandé tant que le client n'a pas donné son accord écrit.
-2. **Déploiement de prévisualisation seulement** (`vercel` sans `--prod`) : URL non
-   devinable, non indexée, et qui expire naturellement.
-
-Le point 7 de `docs/questions-client.md` demande justement l'autorisation d'utiliser
-les visuels du catalogue. Tant qu'elle n'est pas obtenue, rester en accès protégé.
+Si la situation change, la protection se pose en deux clics : Vercel → le projet →
+Settings → Deployment Protection → Password Protection.
 
 ## Rollback
 
 ```bash
-vercel ls                       # liste les déploiements
-vercel rollback <url-du-déploiement>
+vercel ls --scope meridiem                       # liste les déploiements
+vercel rollback <url-du-déploiement> --scope meridiem
 ```
 
 Un déploiement Vercel est immuable : revenir en arrière consiste à repointer l'alias

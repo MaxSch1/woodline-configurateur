@@ -8,3 +8,4 @@ dist/
 
 # artefacts de build TypeScript
 *.tsbuildinfo
+.vercel
