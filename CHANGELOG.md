@@ -2,6 +2,22 @@
 
 > Une entrée datée par mise à jour ou problème rencontré. Récent en haut. Append-only.
 
+## 2026-08-29 (7) — Dépôt rendu public
+
+- Sur décision de Maxime, le dépôt GitHub passe en **public**. Condition posée : aucune
+  variable d'environnement, aucun secret. **Vérifié** — historique git complet balayé,
+  aucun `.env` jamais commité, aucun jeton, et le seul `import.meta.env` du code est
+  `BASE_URL`, une constante de build. Aucune variable d'environnement sur Vercel non plus.
+- **Trois passages neutralisés avant publication**, parce qu'ils relevaient de l'interne
+  Meridiem et non du projet :
+  - le titre de `DEMO.md` nommait le dirigeant du client — remplacé par sa fonction ;
+  - une consigne évoquait le « signal financier » du client, ce qui trahissait une
+    analyse interne de sa santé financière — remplacée par une consigne de tenue neutre ;
+  - le montant exact de ses crédits Azure, qui relève de son accord avec Microsoft —
+    remplacé par la mention du partenariat.
+- Le reste est inchangé : la grille tarifaire publique, les visuels du catalogue et les
+  questions ouvertes restent dans le dépôt, Maxime les ayant jugés non sensibles.
+
 ## 2026-08-29 (6) — 🚀 En ligne
 
 - **Dépôt GitHub** : `MaxSch1/woodline-configurateur`, **privé** (il porte la grille

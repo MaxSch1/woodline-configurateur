@@ -81,8 +81,8 @@ de production sur un déploiement précédent. Rien à reconstruire.
 
 ## Azure, l'autre piste
 
-Wood-Pool dispose d'environ **150 000 $ de crédits Azure** non consommés (partenariat
-Microsoft, cf. fiche CB). Pour une mise en production chez le client, **Azure Static
+Wood-Pool dispose de **crédits Azure** non consommés via son partenariat Microsoft.
+Pour une mise en production chez le client, **Azure Static
 Web Apps** héberge exactement le même `dist/` et présente deux avantages : la facture
 tombe sur leurs crédits, et l'application vit dans leur propre tenant, à côté de leur
 Microsoft 365. À arbitrer quand le projet dépasse la démonstration.

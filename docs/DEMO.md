@@ -1,4 +1,4 @@
-# Démonstration devant Fabrice Landeloos — cinq gestes, cinq minutes
+# Démonstration devant le dirigeant de Wood-Pool — cinq gestes, cinq minutes
 
 > Objectif : qu'il reconnaisse son produit, retrouve ses prix au centime, et
 > comprenne en trente secondes ce qu'il gagne. Pas d'exhaustivité, pas de jargon.
@@ -140,14 +140,14 @@ Cliquez **Revenir au tarif d'origine** pour laisser la démonstration propre.
 | « Et mes quatre autres modèles ? » | « Même structure, même moteur. C'est du remplissage de données, pas du développement. La Bahia a servi à prouver que le portage est exact. » |
 | « Et la grille revendeurs ? » | « Je ne l'ai pas. Le fichier que vous m'avez donné est la grille PARTICULIERS. Il me la faut pour la suite — c'est écrit dans mes questions. » |
 | « Où sont les devis ? » | « Pas dans cette v1. C'est la brique suivante : chaque devis rattaché à un revendeur et à un client, et on sait enfin ce qui se transforme. » |
-| « C'est hébergé où ? » | « Rien n'est décidé. Vous avez 150 000 $ de crédits Azure : ça se pose sur votre propre tenant. » |
+| « C'est hébergé où ? » | « Rien n'est décidé. Vos crédits Azure, via votre partenariat Microsoft, permettent de le poser sur votre propre tenant. » |
 | « Combien ça coûte ? » | Rien n'est chiffré à ce stade. Ne pas improviser un prix. |
 
 ## Ce qu'il ne faut pas faire
 
 - **Ne promettez pas une date de mise en production.** Cette v1 n'est pas déployée.
-- **Ne parlez pas des chiffres de sa société.** Le signal financier du CB ne se cite
-  jamais devant lui.
+- **Restez sur le produit.** Aucun commentaire sur la situation de son entreprise ni
+  sur ses concurrents.
 - **N'improvisez pas un prix de prestation.**
 - Si un écart apparaît sur un total, **ne le défendez pas** : notez-le et vérifiez
   après. Le fichier fait foi, c'est ce qui rend la démonstration crédible.

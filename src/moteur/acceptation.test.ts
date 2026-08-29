@@ -24,7 +24,7 @@ describe("Acceptation — l'etat enregistre du classeur du client", () => {
   /**
    * LA regle non negociable. Le bloc demo_configuration du seed est l'etat enregistre
    * du fichier Excel de Wood-Pool au 20/03/2025. Si un seul centime derive, le moteur
-   * est faux : Fabrice Landeloos ouvrira son classeur en face.
+   * est faux : le dirigeant ouvrira son classeur en face.
    */
   it("sort exactement 12 231,00 / 6 522,00 / 18 753,00 EUR", () => {
     const devis = calculerDevis(catalogue, configurationDemo);
