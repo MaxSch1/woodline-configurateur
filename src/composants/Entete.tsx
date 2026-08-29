@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAtelier } from "../App";
+import { LOGO } from "../donnees/presentation";
 import { formaterEuros } from "../moteur/prix";
 
 /**
@@ -27,7 +28,7 @@ export default function Entete() {
   return (
     <header className="entete">
       <Link to="/" className="entete__marque">
-        <img src="/visuels/logo-woodline.png" alt="Wood-Line" className="entete__logo" />
+        <img src={LOGO} alt="Wood-Line" className="entete__logo" />
         <span className="entete__intitule">
           Configurateur
           <br />

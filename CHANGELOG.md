@@ -2,6 +2,33 @@
 
 > Une entrée datée par mise à jour ou problème rencontré. Récent en haut. Append-only.
 
+## 2026-08-29 (2) — 🔴 Page blanche au chargement, corrigée
+
+- **Problème signalé par Maxime** : le configurateur s'ouvrait pendant le développement,
+  puis rendait une **page blanche**, sans message.
+- **Cause reproduite** : la persistance de la configuration, ajoutée le matin même,
+  restaure telle quelle la session du `localStorage`. Une session pointant une variante
+  ou une option que le catalogue ne connaît plus fait lever le moteur
+  (`Variante inconnue : 99`) ; React démonte tout l'arbre et laisse une page blanche.
+  L'utilisateur n'avait aucun moyen de s'en sortir sans vider le stockage à la main.
+- **Correction en deux temps.**
+  1. `src/moteur/configuration.ts` : `assainirConfiguration()` passe au tamis toute
+     configuration venue de l'extérieur — variante inconnue, option disparue ou
+     indisponible, choix de la mauvaise forme, groupe supprimé. Chaque choix douteux
+     est ramené à sa valeur neutre, le reste est conservé, et les rejets sont tracés en
+     console. 10 tests couvrent le cas, dont la régression exacte.
+  2. `src/composants/GardeFou.tsx` : garde-fou React. Une exception non rattrapée
+     affiche désormais un écran lisible à la charte, avec un bouton « Repartir de zéro »
+     qui vide le stockage et recharge. Vérifié en injectant une panne réelle.
+- **Deuxième cause de page blanche supprimée dans la foulée** : les chemins d'assets du
+  build étaient absolus (`/assets/…`), donc un `dist/index.html` ouvert depuis le Finder
+  rendait lui aussi une page blanche. `base: "./"` dans la config Vite, `HashRouter` à la
+  place de `BrowserRouter`, et tous les chemins d'images passés par
+  `import.meta.env.BASE_URL` (`cheminAsset()`). L'application s'ouvre maintenant depuis
+  le serveur de dev, `npm run preview`, un hébergement statique sans règle de réécriture,
+  ou un double-clic sur le fichier. Contrepartie assumée : les URL portent un `#`.
+- 37 tests, tous verts. Le test d'acceptation sort toujours 12 231 / 6 522 / 18 753 €.
+
 ## 2026-08-29
 - **v1 de démonstration créée**, à partir de `DEV/_TEMPLATE-projet/`. React 18 + Vite +
   TypeScript, vitest, jsPDF. Modèle Bahia seul, 12 variantes, 40 groupes, 118 options.

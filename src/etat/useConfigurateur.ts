@@ -5,49 +5,21 @@ import {
   lireGrille,
   type GrilleTarifaire,
 } from "../donnees/catalogue";
+import {
+  assainirConfiguration,
+  choixParDefaut,
+  configurationNeuve,
+} from "../moteur/configuration";
 import { calculerDevis } from "../moteur/prix";
-import type {
-  Catalogue,
-  Choix,
-  Configuration,
-  Groupe,
-  LigneRevendeur,
-} from "../moteur/types";
+import type { Catalogue, Choix, Configuration, LigneRevendeur } from "../moteur/types";
+
+export { choixParDefaut, configurationNeuve };
 
 /**
  * L'etat du configurateur. Toute la logique de prix est deleguee au moteur pur :
  * ce module ne fait que tenir les choix, la grille tarifaire courante et le bloc
  * revendeur, puis relancer le calcul a chaque frappe.
  */
-
-/** Les libelles par lesquels le client designe l'absence d'option. */
-const LIBELLE_NEUTRE = /^(sans\b|pas de\b|pas d'|aucun\b|non fournies\b)/i;
-
-/** Le choix neutre d'un groupe, ou null quand le revendeur doit trancher. */
-export function choixParDefaut(groupe: Groupe): Choix {
-  switch (groupe.type) {
-    case "booleen":
-      return false;
-    case "booleens_multiples":
-      return [];
-    case "choix_unique": {
-      const neutre = groupe.options.find((o) => LIBELLE_NEUTRE.test(o.libelle));
-      return neutre ? neutre.id : null;
-    }
-    case "choix_unique_avec_quantite": {
-      const neutre = groupe.options.find((o) => LIBELLE_NEUTRE.test(o.libelle));
-      return neutre
-        ? { option: neutre.id, quantite: groupe.quantite_defaut ?? 1 }
-        : null;
-    }
-  }
-}
-
-export function configurationNeuve(catalogue: Catalogue): Configuration {
-  const choix: Record<string, Choix> = {};
-  for (const groupe of catalogue.groupes) choix[groupe.id] = choixParDefaut(groupe);
-  return { variante: catalogue.variantes[0].numero, choix };
-}
 
 export function blocRevendeurNeuf(catalogue: Catalogue): LigneRevendeur[] {
   return catalogue.bloc_revendeur.lignes.map((libelle) => ({ libelle, montant: 0 }));
@@ -113,12 +85,34 @@ export function useConfigurateur() {
   const reprise = typeof window === "undefined" ? null : lireSession();
   const neuf = construireCatalogue(grilleVierge());
 
-  const [configuration, setConfiguration] = useState<Configuration>(
-    () => reprise?.configuration ?? configurationNeuve(neuf),
-  );
-  const [blocRevendeur, setBlocRevendeur] = useState<LigneRevendeur[]>(
-    () => reprise?.blocRevendeur ?? blocRevendeurNeuf(neuf),
-  );
+  /**
+   * Une session enregistree n'est jamais digne de confiance : elle a pu etre ecrite
+   * par une version anterieure du catalogue. On la passe au tamis plutot que de la
+   * donner telle quelle au moteur, qui leverait et emporterait toute la page.
+   */
+  const [configuration, setConfiguration] = useState<Configuration>(() => {
+    if (!reprise?.configuration) return configurationNeuve(neuf);
+    const { configuration: assainie, rejets } = assainirConfiguration(
+      neuf,
+      reprise.configuration,
+    );
+    if (rejets.length > 0) {
+      console.warn(
+        `[woodline] session enregistrée partiellement ignorée : ${rejets.join(", ")}`,
+      );
+    }
+    return assainie;
+  });
+  const [blocRevendeur, setBlocRevendeur] = useState<LigneRevendeur[]>(() => {
+    const enregistre = reprise?.blocRevendeur;
+    const neufBloc = blocRevendeurNeuf(neuf);
+    if (!Array.isArray(enregistre) || enregistre.length !== neufBloc.length) return neufBloc;
+    // Les intitules font foi cote catalogue ; on ne reprend que les montants.
+    return neufBloc.map((ligne, i) => ({
+      ...ligne,
+      montant: Number.isFinite(enregistre[i]?.montant) ? enregistre[i].montant : 0,
+    }));
+  });
   const [client, setClient] = useState<Client>(() => reprise?.client ?? CLIENT_VIERGE);
   const [revendeur, setRevendeur] = useState<Revendeur>(
     () => reprise?.revendeur ?? REVENDEUR_VIERGE,

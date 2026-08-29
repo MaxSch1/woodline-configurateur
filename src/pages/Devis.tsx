@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAtelier } from "../App";
+import { LOGO } from "../donnees/presentation";
 import {
   formaterEuros,
   intituleLigne,
@@ -63,7 +64,7 @@ export default function PageDevis() {
 
       <article className="feuille">
         <header className="feuille__entete">
-          <img src="/visuels/logo-woodline.png" alt="Wood-Line" className="feuille__logo" />
+          <img src={LOGO} alt="Wood-Line" className="feuille__logo" />
           <h1 className="feuille__modele">{catalogue.modele.nom}</h1>
           <div className="feuille__meta">
             Date : {date}

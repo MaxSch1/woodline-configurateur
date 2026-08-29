@@ -1,5 +1,6 @@
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
+import { LOGO } from "../donnees/presentation";
 import { formaterEuros, intituleLigne, lignesImprimables } from "../moteur/prix";
 import type { Catalogue, Devis } from "../moteur/types";
 import type { Client, Revendeur } from "../etat/useConfigurateur";
@@ -29,7 +30,7 @@ export interface ParametresDevis {
 /** Le logo, converti en data URI pour etre embarque dans le PDF. */
 async function chargerLogo(): Promise<string | null> {
   try {
-    const reponse = await fetch("/visuels/logo-woodline.png");
+    const reponse = await fetch(LOGO);
     if (!reponse.ok) return null;
     const blob = await reponse.blob();
     return await new Promise<string>((resoudre, rejeter) => {

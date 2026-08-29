@@ -28,6 +28,13 @@ aucune base : tout tourne dans le navigateur.
 | `npm test` | Les 27 tests, dont le test d'acceptation |
 | `npm run acceptation` | Le seul test d'acceptation, qui affiche les trois totaux |
 | `npm run build` | Build de production dans `dist/` |
+| `npm run preview` | Sert le build sur `http://localhost:4173` |
+
+### Si l'écran reste blanc
+
+Il ne devrait plus. Si cela arrive quand même : ouvrir la console du navigateur, puis
+vider le stockage du site (`localStorage.clear()`) et recharger. Le bouton
+« Repartir de zéro » de l'écran d'erreur fait la même chose.
 
 ## La règle d'acceptation
 
@@ -45,13 +52,13 @@ faux** : le dirigeant ouvrira son classeur en face.
 
 ## Les quatre écrans
 
-1. **`/`** — le choix du modèle. Bahia active, les quatre autres visibles et grisées.
-2. **`/configurer`** — le parcours en étapes, numéroté comme le catalogue papier.
+1. **`#/`** — le choix du modèle. Bahia active, les quatre autres visibles et grisées.
+2. **`#/configurer`** — le parcours en étapes, numéroté comme le catalogue papier.
    Rail des étapes à gauche, options avec leur visuel au centre, récapitulatif chiffré
    collé à droite. Le total bouge à chaque clic.
-3. **`/devis`** — l'aperçu du devis, l'en-tête revendeur et client, le bloc
+3. **`#/devis`** — l'aperçu du devis, l'en-tête revendeur et client, le bloc
    « Réservé aux revendeurs », l'export PDF.
-4. **`/administration`** — la grille tarifaire. On modifie un prix, on publie, le
+4. **`#/administration`** — la grille tarifaire. On modifie un prix, on publie, le
    configurateur l'applique à la seconde suivante.
 
 ## Architecture
@@ -89,6 +96,13 @@ src/
   sort du poste du revendeur.
 - **La grille publiée vit dans le `localStorage`** en v1. En production : une table,
   avec date de validité et historique.
+- **Routeur à dièse et chemins d'assets relatifs.** L'application s'ouvre depuis
+  n'importe où : serveur de dev, `npm run preview`, hébergement statique sans règle de
+  réécriture, ou `dist/index.html` ouvert à la main. Aucune route ne peut rendre un 404.
+- **Rien venu du stockage n'est cru sur parole.** `assainirConfiguration()` passe au
+  tamis toute configuration restaurée, et un garde-fou React attrape le reste : une
+  panne affiche un écran lisible avec un bouton « Repartir de zéro », jamais une page
+  blanche. Voir `src/moteur/configuration.ts` et `src/composants/GardeFou.tsx`.
 
 ### Accueillir les quatre autres modèles
 

@@ -306,6 +306,19 @@ export const MODELES: FicheModele[] = [
   { code: "longhi", nom: "Longhi", forme: "Octogonale allongée", visuel: "modele-longhi.jpg", page: 25, actif: false, variantes: 18 },
 ];
 
+/**
+ * Le chemin d'un fichier de `public/`, prefixe par la base du build.
+ *
+ * Un chemin absolu (« /visuels/… ») casse des que l'application n'est pas servie a la
+ * racine d'un domaine : dist ouvert depuis le Finder, hebergement en sous-dossier.
+ * `import.meta.env.BASE_URL` vaut « ./ » ici, et suit toute autre base configuree.
+ */
+export function cheminAsset(fichier: string): string {
+  return `${import.meta.env.BASE_URL}${fichier}`;
+}
+
+export const LOGO = cheminAsset("visuels/logo-woodline.png");
+
 export function visuel(fichier: string | undefined): string | undefined {
-  return fichier ? `/visuels/${fichier}` : undefined;
+  return fichier ? cheminAsset(`visuels/${fichier}`) : undefined;
 }

@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Entete from "./composants/Entete";
+import GardeFou from "./composants/GardeFou";
 import Admin from "./pages/Admin";
 import ChoixModele from "./pages/ChoixModele";
 import Configurateur from "./pages/Configurateur";
@@ -23,6 +24,14 @@ function RetourEnHaut() {
 }
 
 export default function App() {
+  return (
+    <GardeFou>
+      <Atelier />
+    </GardeFou>
+  );
+}
+
+function Atelier() {
   const etat = useConfigurateur();
 
   return (

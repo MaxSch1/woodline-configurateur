@@ -1165,3 +1165,42 @@ tr.modifiee .table-admin__saisie input { border-color: var(--orange); color: #92
   .feuille { box-shadow: none; border: 0; padding: 0; }
   .page-devis { padding: 0; max-width: none; }
 }
+
+/* ------------------------------------------------- Garde-fou (page d'erreur) -- */
+
+.panne {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 90px 24px;
+  text-align: center;
+}
+.panne__logo { height: 40px; margin-bottom: 28px; }
+.panne__titre {
+  font-family: var(--titre);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--bordeaux);
+  margin: 0 0 12px;
+}
+.panne__texte {
+  color: var(--encre-douce);
+  font-size: 16px;
+  margin: 0 0 26px;
+}
+.panne__detail {
+  margin-top: 32px;
+  text-align: left;
+  font-size: 13px;
+  color: var(--encre-legere);
+}
+.panne__detail summary { cursor: pointer; }
+.panne__detail pre {
+  margin-top: 10px;
+  padding: 12px 14px;
+  background: var(--fond);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--encre-douce);
+}

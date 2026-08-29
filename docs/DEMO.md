@@ -156,3 +156,7 @@ Cliquez **Revenir au tarif d'origine** pour laisser la démonstration propre.
 
 Si le poste lâche, `npm run acceptation` en terminal affiche les trois totaux en deux
 secondes. C'est la démonstration réduite à sa preuve.
+
+Si un écran se fige ou affiche « L'écran s'est interrompu » : cliquez
+**Repartir de zéro**, l'application repart neuve et la grille tarifaire est intacte.
+Rechargez ensuite et reprenez au geste 3, qui se rejoue en un clic.
