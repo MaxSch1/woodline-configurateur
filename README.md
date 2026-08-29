@@ -111,6 +111,24 @@ déposer `atoll.seed.json`, l'ouvrir depuis `donnees/catalogue.ts`, compléter
 `SECTIONS_DEVIS` si sa feuille devis diffère, et passer `MODELES[atoll].actif` à
 `true`. Le moteur, le devis et le PDF n'ont pas à bouger.
 
+## Déployer
+
+L'application est **entièrement statique** : pas de serveur, pas de base, pas de
+variable d'environnement, pas de secret. Elle se pose telle quelle sur Vercel
+(`vercel.json` fourni) ou sur Azure Static Web Apps.
+
+```bash
+vercel        # prévisualisation, URL non indexée
+```
+
+🔴 Une URL publique expose les 161 prix de Wood-Pool et 39 images de leur catalogue :
+**protéger le déploiement par mot de passe** tant que le client n'a pas donné son
+accord. Procédure, rollback et arbitrage Azure : [`docs/deploy.md`](docs/deploy.md).
+
+**La v1 n'utilise pas Supabase**, ni aucune base : c'était le périmètre. La bascule est
+préparée, pas faite — un seul fichier à changer, `src/donnees/catalogue.ts`. Détail et
+tables envisagées dans `docs/deploy.md`.
+
 ## Ce qui n'est pas dans cette v1
 
 Les quatre autres modèles, l'authentification et les comptes revendeurs, le

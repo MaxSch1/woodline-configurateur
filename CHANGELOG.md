@@ -2,6 +2,23 @@
 
 > Une entrée datée par mise à jour ou problème rencontré. Récent en haut. Append-only.
 
+## 2026-08-29 (5) — Déploiement préparé (Vercel), sans être lancé
+
+- `vercel.json` + `docs/deploy.md`. L'application étant entièrement statique, il n'y a
+  ni serveur, ni base, ni variable d'environnement à fournir.
+- ⚠️ **Piège évité** : pas de réécriture attrape-tout dans `vercel.json`. Le build
+  utilise des chemins d'assets relatifs (`base: "./"`) ; `index.html` servi sur un
+  chemin à plusieurs segments chercherait ses assets au mauvais endroit. Seules les
+  trois routes à un segment sont réécrites, en filet pour d'anciennes URL sans `#`.
+- `X-Robots-Tag: noindex, nofollow` : les tarifs et les visuels du client n'ont rien à
+  faire dans un moteur de recherche.
+- **Non déployé.** Une URL Vercel publierait 161 prix de Wood-Pool et 39 images de leur
+  catalogue sur un domaine Meridiem. Demande la validation de Maxime, et l'autorisation
+  du client sur les visuels (point 7 de `docs/questions-client.md`).
+- Rappel écrit noir sur blanc dans `deploy.md` : sur une URL partagée, « publier la
+  grille » ne change le prix que dans le navigateur qui a publié, puisqu'elle vit dans
+  le `localStorage`. C'est le moment précis où la base devient nécessaire.
+
 ## 2026-08-29 (4) — 🔴 `destroy is not a function` : l'effet de remontée en haut de page
 
 - **Symptôme** : Maxime voyait toujours l'écran d'erreur, avec le message
